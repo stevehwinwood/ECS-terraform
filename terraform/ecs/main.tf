@@ -11,4 +11,10 @@ module "ecs" {
   cluster = "steve-terraform"
   instance_group = "dev-instances"
   vpc_id = "vpc-0eea939985b63f87e"
+  key_name = ""
+  aws_ami = "ami-0209769f0c963e791"
+  iam_instance_profile_id = ""
+
+  #Add instance_profile and key_name stuff to the ecs module (or pre reqs module)
+
 }
