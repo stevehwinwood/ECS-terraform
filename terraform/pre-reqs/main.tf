@@ -5,7 +5,7 @@ provider "aws" {
 }
 
 module "vpc" {
-  source = "terraform-aws-modules/vpc/aws"
+  source = "../modules/vpc"
 
   name = "ECS-example"
 
@@ -17,8 +17,8 @@ module "vpc" {
 
   assign_generated_ipv6_cidr_block = false
 
-  enable_nat_gateway = true
-  single_nat_gateway = true
+  enable_nat_gateway = false
+  single_nat_gateway = false
 
   tags = {
     Owner       = "Steve"
