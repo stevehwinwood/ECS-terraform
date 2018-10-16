@@ -24,11 +24,11 @@ variable "instance_type" {
     default = "t2.micro"
 }
 
-variable "iam_instance_profile_id" {
-  description = "The id of the instance profile that should be used for the instances"
-}
+#variable "iam_instance_profile" {
+ # description = "The id of the instance profile that should be used for the instances"
+#}
 
-variable "key_name" {
-  description = "SSH key name to be used"
-}
+#variable "key_name" {
+ # description = "SSH key name to be used"
+#}
 
