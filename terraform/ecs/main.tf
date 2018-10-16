@@ -16,5 +16,6 @@ module "ecs" {
   #iam_instance_profile = "${aws_iam_instance_profile.ecs.id}"
 
   #Add instance_profile and key_name stuff to the ecs module (or pre reqs module)
+  private_subnet_ids = ["subnet-0d8da9334a0796bd1","subnet-0be22c1069c98b4b7","subnet-001963985b2b9ee28"]
 
 }

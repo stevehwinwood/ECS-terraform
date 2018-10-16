@@ -37,3 +37,39 @@ resource "aws_launch_configuration" "launch" {
     create_before_destroy = true
   }
 }
+
+resource "aws_autoscaling_group" "asg" {
+  name                 = "${var.environment}_${var.cluster}_${var.instance_group}"
+  max_size             = "${var.max_size}"
+  min_size             = "${var.min_size}"
+  desired_capacity     = "${var.desired_capacity}"
+  force_delete         = true
+  launch_configuration = "${aws_launch_configuration.launch.id}"
+  vpc_zone_identifier  = ["${var.private_subnet_ids}"]
+  #load_balancers       = ["${var.load_balancers}"]
+
+  tag {
+    key                 = "Name"
+    value               = "${var.environment}_ecs_${var.cluster}_${var.instance_group}"
+    propagate_at_launch = "true"
+  }
+
+  tag {
+    key                 = "Environment"
+    value               = "${var.environment}"
+    propagate_at_launch = "true"
+  }
+
+  tag {
+    key                 = "Cluster"
+    value               = "${var.cluster}"
+    propagate_at_launch = "true"
+  }
+
+  tag {
+    key                 = "InstanceGroup"
+    value               = "${var.instance_group}"
+    propagate_at_launch = "true"
+  }
+
+}

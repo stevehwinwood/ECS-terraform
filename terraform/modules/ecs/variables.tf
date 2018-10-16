@@ -32,3 +32,23 @@ variable "instance_type" {
  # description = "SSH key name to be used"
 #}
 
+variable "max_size" {
+  default     = 1
+  description = "Maximum size of the nodes in the cluster"
+}
+
+variable "min_size" {
+  default     = 1
+  description = "Minimum size of the nodes in the cluster"
+}
+
+variable "desired_capacity" {
+  default     = 1
+  description = "The desired capacity of the cluster"
+}
+
+variable "private_subnet_ids" {
+  type        = "list"
+  description = "The list of private subnets to place the instances in"
+}
+
