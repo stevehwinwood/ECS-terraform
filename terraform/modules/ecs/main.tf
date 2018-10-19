@@ -21,12 +21,21 @@ resource "aws_security_group_rule" "outbound_internet_access" {
   security_group_id = "${aws_security_group.instance.id}"
 }
 
+resource "aws_security_group_rule" "inbound_ssh" {
+  type              = "ingress"
+  from_port         = 22
+  to_port           = 22
+  protocol          = "tcp"
+  cidr_blocks       = ["10.0.0.0/8"]
+  security_group_id = "${aws_security_group.instance.id}"
+}
+
 resource "aws_launch_configuration" "launch" {
   name_prefix          = "${var.environment}_${var.cluster}_${var.instance_group}_"
   image_id             = "${var.aws_ami}"
   instance_type        = "${var.instance_type}"
   security_groups      = ["${aws_security_group.instance.id}"]
-  #user_data            = "${data.template_file.user_data.rendered}"
+  user_data            = "${data.template_file.userdata.rendered}"
   iam_instance_profile = "${aws_iam_instance_profile.ecs.id}"
   key_name             = "${aws_key_pair.deployer.key_name}"
 
@@ -72,4 +81,17 @@ resource "aws_autoscaling_group" "asg" {
     propagate_at_launch = "true"
   }
 
+}
+
+data "template_file" "userdata" {
+  template = "${file("${path.module}/templates/userdata.sh")}"
+
+  vars {
+    ecs_config        = "${var.ecs_config}"
+    cluster_name      = "${var.cluster}"
+  }
+}
+
+resource "aws_ecs_cluster" "cluster" {
+  name = "${var.cluster}"
 }
